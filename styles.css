@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    background: linear-gradient(270deg, #ff8c00, #ff0080, #8a2be2, #4b0082);
+    background-size: 800% 800%;
+    -webkit-animation: AnimatedGradient 35s ease infinite;
+    -moz-animation: AnimatedGradient 35s ease infinite;
+    animation: AnimatedGradient 35s ease infinite;
+}
+
+@-webkit-keyframes AnimatedGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@-moz-keyframes AnimatedGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes AnimatedGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container {
+    margin: 20px auto;
+    max-width: 300px;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px #fff;
+}
+
+h1 {
+    font-size: 1.5rem;
+    color: rgb(255, 255, 255);
+    margin-bottom: 20px;
+}
+
+button, input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.8rem;
+}
+
+button {
+    background-color: #f00;
+    border: 2px solid #fff;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+input {
+    margin-bottom: 10px;
+    background: #fff;
+    color: #000;
+    border: 2px solid #fff;
+}
+
+#estimatedReturn {
+    color: rgb(0, 0, 0);
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid #ff0;
+    margin-top: 20px;
+    padding: 10px;
+    display: block; /* Make it block to fill the width of the container */
+    font-weight: bold; /* Make text bold */
+}
+
+#output:empty {
+    display: none; /* Hide the #output div when it is empty */
+}
+
+#warningBox {
+    background-color: #000000; /* Black Background */
+    color: #ff0000; /* Bright Red Text */
+    font-weight: bold; /* Bold Text */
+    padding: 20px;
+    margin: 0 auto 30px auto; /* Center the warning box */
+    width: 80%; /* Make the warning box less wide */
+    border: 3px dashed yellow; /* Dashed border for high attention */
+    line-height: 1.5; /* Increased space between lines */
+    text-align: center;
+    box-shadow: 0 0 10px #ff0000; /* Red shadow for a 'popping out' effect */
+}
+
+/* For smaller screens, adjust the width and padding */
+@media (max-width: 600px) {
+    #warningBox {
+        font-size: 0.6rem;
+        padding: 10px;
+        width: 90%; /* Slightly more width on small screens for readability */
+        line-height: 1.4; /* Slightly less line height for small screens */
+    }
+}
+
+#infoSection {
+    background-color: rgba(0, 0, 0, 0.85); /* Slightly transparent black */
+    color: #ffffff; /* White Text */
+    padding: 20px;
+    margin: 30px auto; /* Space from the container box */
+    width: 80%; /* Width similar to the warning box */
+    border: 3px solid #ff0; /* Solid border for attention */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px #ff0; /* Yellow shadow for a 'popping out' effect */
+    text-align: left; /* Align text to the left */
+    font-size: 0.8rem; /* Smaller font size for lengthy text */
+    line-height: 1.5; /* Increased line height for readability */
+}
+
+#infoSection h2 {
+    text-align: center; /* Center align the heading */
+    margin-bottom: 20px; /* Space after the heading */
+}
+
+#infoSection ul {
+    padding-left: 20px; /* Indent for list */
+}
+
+#infoSection a {
+    color: #0ff; /* Cyan links for contrast and visibility */
+    text-decoration: none; /* No underline */
+}
+
+#infoSection a:hover {
+    text-decoration: underline; /* Underline on hover for links */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 600px) {
+    #infoSection {
+        width: 90%; /* More width on small screens for readability */
+        font-size: 0.6rem; /* Smaller font size for small screens */
+    }
+}
+
+#faqSection {
+    background-color: rgba(0, 0, 0, 0.85); /* Slightly transparent black */
+    color: #ffffff; /* White Text */
+    padding: 20px;
+    margin: 30px auto; /* Space from the info section */
+    width: 80%; /* Width similar to the info box */
+    border: 3px solid #ff0; /* Solid border for attention */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px #ff0; /* Yellow shadow for a 'popping out' effect */
+    text-align: left; /* Align text to the left */
+    font-size: 0.8rem; /* Smaller font size for lengthy text */
+    line-height: 1.5; /* Increased line height for readability */
+}
+
+#faqSection h2 {
+    text-align: center; /* Center align the heading */
+    margin-bottom: 20px; /* Space after the heading */
+}
+
+input#investmentAmount::placeholder {
+    text-align: center;
+    color: #ccc; /* Optional: change the placeholder text color if needed */
+}
+
+
+#faqSection dt {
+    font-weight: bold; /* Bold text for questions */
+    margin-top: 15px; /* Space before each question */
+}
+
+#faqSection dd {
+    margin-left: 20px; /* Indent for answers */
+    margin-bottom: 15px; /* Space after each answer */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 600px) {
+    #faqSection {
+        width: 90%; /* More width on small screens for readability */
+        font-size: 0.6rem; /* Smaller font size for small screens */
+    }
+}
+
+
+
+
+
+/* Responsive design adjustments */
+@media (max-width: 600px) {
+    body {
+        font-size: 12px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    button, input {
+        font-size: 0.7rem;
+    }
+}

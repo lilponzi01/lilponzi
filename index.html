@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Lil Ponzi</title>
+</head>
+<body>
+    <div id="warningBox">
+        WARNING: This is a demonstration of a Ponzi scheme, which is a fraudulent investing scam promising high rates of return with little risk to investors. Ponzi schemes generate returns for earlier investors by acquiring new investors. This scam leads to a collapse when the new investments stop. DO NOT invest in Ponzi schemes!
+    </div>
+    
+    <div class="container">
+        <h1>Lil Ponzi</h1>
+
+        <div id="estimatedReturn">Your Estimated Return:</div>
+        
+        <input type="text" id="investmentAmount" placeholder="Amount in Ether" />
+        <button onclick="invest()">Invest</button>
+        
+        <button onclick="compound()">Compound</button>
+        <button onclick="claimDividends()">Claim Dividends</button>
+        <button onclick="withdraw()">Withdraw</button>
+
+        <div id="output"></div>
+    </div>
+
+    <div id="infoSection">
+        <h2>What is a Ponzi Scheme?</h2>
+        <p>
+            A Ponzi scheme is an investment fraud that pays existing investors with funds collected from new investors. 
+            Ponzi scheme organizers often promise to invest your money and generate high returns with little or no risk. 
+            But in many Ponzi schemes, the fraudsters do not invest the money. Instead, they use it to pay those who invested earlier 
+            and may keep some for themselves.
+        </p>
+        <p>
+            With little or no legitimate earnings, Ponzi schemes require a consistent flow of money from new investors to continue. 
+            Once it becomes hard to recruit new investors, or when large numbers of existing investors cash out, these schemes tend 
+            to collapse.
+        </p>
+        <p>
+            <strong>Why Avoid Ponzi Schemes?</strong><br>
+            Ponzi schemes are unsustainable. They are destined to collapse because the earnings, if any, 
+            are less than the payments to investors. Here are some reasons to avoid them:
+        </p>
+        <ul>
+            <li>The promised high returns are not guaranteed and are usually unrealistically high.</li>
+            <li>The only way to generate returns is from new investors' funds, not from legitimate business activities.</li>
+            <li>Most people will lose money when there is no longer a steady inflow of new investments.</li>
+            <li>Engaging in Ponzi schemes is unwise and unethical.</li>
+        </ul>
+        <p>
+            For more information, please check out the following sources:
+        </p>
+        <ul>
+            <li><a href="https://www.investor.gov/protect-your-investments/fraud/types-fraud/ponzi-scheme" target="_blank">SEC.gov - Ponzi Schemes</a></li>
+            <li><a href="https://twitter.com/zachxbt" target="_blank">FBI - Ponzi Schemes</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Ponzi_scheme" target="_blank">Wikipedia - Ponzi Scheme</a></li>
+        </ul>
+    </div>
+    
+    <div id="faqSection">
+        <h2>Frequently Asked Questions</h2>
+        <dl>
+            <dt>Why was this Ponzi created?</dt>
+            <dd>This interactive demonstration was built to educate users on the mechanics and risks of Ponzi schemes. It is a tool for understanding how these schemes operate and why they are unsustainable and unwise to invest in.</dd>
+    
+            <dt>What are the rules of this Ponzi?</dt>
+            <dd>Users can invest, compound earnings and withdraw. Withdrawals are limited to once every 6 hours to mimic the restrictions often found in these fraudulent schemes.</dd>
+    
+            <dt>Can I actually invest in this?</dt>
+            <dd>Yes, but you shouldn't. No real investment is taking place using your money. It is a Ponzi scheme.</dd>
+
+            <dt>What is my "estimated return"?</dt>
+            <dd>This value includes your initial investment as well as any dividends owed from later investors. Minus fees. NOTE THAT THIS NUMBER IS LIKELY TO DROP BELOW YOUR INITIAL INVESTMENT. AS THIS IS A PONZI SCHEME.</dd>
+
+            <dt>What fees are there?</dt>
+            <dd>There is a 4% protocol fee at the point of investment. There is a 10% withdrawal fee, a common strategy Ponzi schemes use to prolong the lifespan of the scam.</dd>
+
+            <dt>Is the contract safe?</dt>
+            <dd>The contract will not steal your money, however this is a PONZI SCHEME so you will likely LOSE money.</dd>
+        </dl>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.0/web3.min.js"></script>
+    <script>
+        let web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+        let contractAddress = '0x4DB19F17359c888bd84e39D46b27eD6896731C05';
+        let abi = [
+	{
+		"inputs": [],
+		"name": "claimDividends",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "compound",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_devAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_minWithdrawTimeInMinutes",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "investor",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "DividendsClaimed",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "invest",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "investor",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Investment",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "investor",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Withdrawal",
+		"type": "event"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "investorAddress",
+				"type": "address"
+			}
+		],
+		"name": "calculateTotalOwed",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "investors",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "amountInvested",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastDividendsPerShare",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastDepositTime",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalInvestment",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
+        let contract = new web3.eth.Contract(abi, contractAddress);
+
+        // This function gets called every time the account changes.
+        async function calculateTotalOwed() {
+            const accounts = await web3.eth.getAccounts();
+            if (accounts.length === 0) {
+                console.log('Please connect to MetaMask.');
+            } else {
+                contract.methods.calculateTotalOwed(accounts[0]).call()
+                    .then(function(result){
+                        document.getElementById('estimatedReturn').innerHTML = 'Your Estimated Return: ' + web3.utils.fromWei(result, 'ether') + ' ETH';
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    });
+            }
+        }
+
+        async function invest() {
+            const accounts = await web3.eth.getAccounts();
+            const amount = document.getElementById('investmentAmount').value;
+            contract.methods.invest().send({ from: accounts[0], value: web3.utils.toWei(amount, 'ether') })
+                .then(function(receipt){
+                    document.getElementById('output').innerHTML = 'Investment of ' + amount + ' ETH successful!';
+                    calculateTotalOwed();
+                });
+        }
+
+        async function compound() {
+            const accounts = await web3.eth.getAccounts();
+            contract.methods.compound().send({ from: accounts[0] })
+                .then(function(receipt){
+                    document.getElementById('output').innerHTML = 'Compounded successfully!';
+                    calculateTotalOwed();
+                });
+        }
+
+        async function claimDividends() {
+            const accounts = await web3.eth.getAccounts();
+            contract.methods.claimDividends().send({ from: accounts[0] })
+                .then(function(receipt){
+                    document.getElementById('output').innerHTML = 'Dividends claimed successfully!';
+                    calculateTotalOwed();
+                });
+        }
+
+        async function withdraw() {
+            const accounts = await web3.eth.getAccounts();
+            contract.methods.withdraw().send({ from: accounts[0] })
+                .then(function(receipt){
+                    document.getElementById('output').innerHTML = 'Withdrawal successful!';
+                    calculateTotalOwed();
+                });
+        }
+
+        // Listen for account changes and update the estimated return accordingly
+        if (window.ethereum) {
+            window.ethereum.on('accountsChanged', function (accounts) {
+                calculateTotalOwed();
+            });
+        }
+
+        // On page load, try to display the estimated return
+        window.addEventListener('load', function() {
+            if (window.ethereum) {
+                window.ethereum.enable().then(function (accounts) {
+                    calculateTotalOwed();
+                });
+            } else {
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+        });
+    </script>
+</body>
+</html>
