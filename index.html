@@ -266,7 +266,7 @@
             } else {
                 contract.methods.calculateTotalOwed(accounts[0]).call()
                     .then(function(result){
-                        document.getElementById('estimatedReturn').innerHTML = 'Your Estimated Return: ' + web3.utils.fromWei(result, 'ether') + ' ETH';
+                        document.getElementById('estimatedReturn').innerHTML = 'Your Estimated Return: ' + parseFloat(web3.utils.fromWei(result, 'ether')).toFixed(4) + ' ETH';
                     })
                     .catch(function(error){
                         console.log(error);
