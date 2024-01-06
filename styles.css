@@ -83,6 +83,17 @@ input {
     font-weight: bold; /* Make text bold */
 }
 
+#totalInvestment {
+    color: rgb(0, 0, 0);
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid #ff0;
+    margin-top: 20px;
+    padding: 10px;
+    display: block; /* Make it block to fill the width of the container */
+    font-weight: bold; /* Make text bold */
+}
+
+
 #output:empty {
     display: none; /* Hide the #output div when it is empty */
 }
