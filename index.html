@@ -14,7 +14,7 @@
     
     <div class="container">
         <h1>Lil Ponzi</h1>
-
+        <div id="totalInvestment">Total Investment: 0 ETH</div>
         <div id="estimatedReturn">Your Estimated Return:</div>
         
         <input type="text" id="investmentAmount" placeholder="Amount in Ether" />
@@ -87,7 +87,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.0/web3.min.js"></script>
     <script>
         let web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
-        let contractAddress = '0x4DB19F17359c888bd84e39D46b27eD6896731C05';
+        let contractAddress = '0xB5790CD4438f7277A451cc50beC61199AD33267c';
         let abi = [
 	{
 		"inputs": [],
@@ -281,6 +281,7 @@
                 .then(function(receipt){
                     document.getElementById('output').innerHTML = 'Investment of ' + amount + ' ETH successful!';
                     calculateTotalOwed();
+                    displayTotalInvestment();
                 });
         }
 
@@ -311,6 +312,17 @@
                 });
         }
 
+        async function displayTotalInvestment() {
+            contract.methods.totalInvestment().call()
+                .then(function(result){
+                    document.getElementById('totalInvestment').innerHTML = 'Total Investment: ' + parseFloat(web3.utils.fromWei(result, 'ether')).toFixed(4) + ' ETH';
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+        }
+
+
         // Listen for account changes and update the estimated return accordingly
         if (window.ethereum) {
             window.ethereum.on('accountsChanged', function (accounts) {
@@ -323,6 +335,17 @@
             if (window.ethereum) {
                 window.ethereum.enable().then(function (accounts) {
                     calculateTotalOwed();
+                });
+            } else {
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+        });
+
+        window.addEventListener('load', function() {
+            if (window.ethereum) {
+                window.ethereum.enable().then(function (accounts) {
+                    calculateTotalOwed();
+                    displayTotalInvestment(); // Add this line
                 });
             } else {
                 console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
